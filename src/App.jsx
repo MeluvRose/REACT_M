@@ -1,32 +1,50 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
-const Father = styled.div`
+const Container = styled.div`
   display: flex;
 `;
 
-const Btn = styled.button`
-  color: White;
-  background-color: gray;
-  border: 0;
-  border-radius: 10px;
+const animation = keyframes`
+  0% {
+    transform:rotate(0deg);
+    border-radius: 0%;
+  } 
+  50% {
+    transform:rotate(360deg);
+    border-radius: 50%;
+  }
+  100% {
+    transform:rotate(0deg);
+    border-radius: 0%;
+  }
 `;
 
-const Input = styled.input.attrs({
-  required: true,
-  minLength: 10,
-})`
+const Box = styled.div`
+  width: 100px;
+  height: 100px;
   background-color: tomato;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: ${animation} 3s linear infinite;
+  span {
+    font-size: 48px;
+    &:hover {
+      font-size: 24px;
+    } // span:hover
+    &:active {
+      opacity: 0;
+    } // span:active
+  }
 `;
 
 function App() {
   return (
-    <Father as="header">
-      <Btn>Login</Btn>
-      <Btn as="a">Login</Btn>
-      <Input />
-      <Input />
-      <Input />
-    </Father>
+    <Container>
+      <Box>
+        <span>😁</span>
+      </Box>
+    </Container>
   );
 }
 
