@@ -19,6 +19,10 @@ const animation = keyframes`
   }
 `;
 
+const Emoji = styled.span`
+  font-size: 48px;
+`;
+
 const Box = styled.div`
   width: 100px;
   height: 100px;
@@ -27,14 +31,13 @@ const Box = styled.div`
   align-items: center;
   justify-content: center;
   animation: ${animation} 3s linear infinite;
-  span {
-    font-size: 48px;
+  ${Emoji} {
     &:hover {
-      font-size: 24px;
-    } // span:hover
+      font-size: 72px;
+    }
     &:active {
       opacity: 0;
-    } // span:active
+    }
   }
 `;
 
@@ -42,8 +45,9 @@ function App() {
   return (
     <Container>
       <Box>
-        <span>😁</span>
+        <Emoji as="p">😁</Emoji>
       </Box>
+      <Emoji>👾</Emoji>
     </Container>
   );
 }
