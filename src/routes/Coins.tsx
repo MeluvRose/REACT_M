@@ -3,6 +3,7 @@ import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { fetchCoins } from "../api";
+import { Helmet } from "react-helmet";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -15,6 +16,7 @@ const Header = styled.header`
   display: flex;
   justify-content: center;
   align-items: center;
+  text-transform: uppercase;
 `;
 
 const CoinsList = styled.ul``;
@@ -67,8 +69,11 @@ function Coins() {
 
   return (
     <Container>
+      <Helmet>
+        <title>Coins</title>
+      </Helmet>
       <Header>
-        <Title>Coins</Title>;
+        <Title>Coin</Title>;
       </Header>
       {isLoading ? (
         <Loader>Loading...</Loader>
