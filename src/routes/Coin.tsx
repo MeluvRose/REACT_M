@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { Switch, Route, useLocation, useParams } from "react-router-dom";
 import styled from "styled-components";
+import Chart from "./Chart";
+import Price from "./Price";
 
 interface RouteParams {
   coinId: string;
@@ -28,22 +30,39 @@ const Loader = styled.span`
   text-align: center;
 `;
 
+const CoinInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Overview = styled.div`
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 20px;
+  background-color: rgb(1, 1, 1, 0.5);
+  border-radius: 10px;
+`;
+
+const OverviewItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  span:first-child {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+  }
+`;
+
+const Description = styled.p`
+  margin: 20px 0;
+`;
+
 interface RouteState {
   name: string;
 }
-
-// interface ITag {
-//   coin_counter: number;
-//   ico_counter: number;
-//   id: string;
-//   name: string;
-// }
-
-// interface ITeam {
-//   id: string;
-//   name: string;
-//   position: string;
-// }
 
 interface InfoData {
   id: string;
@@ -54,8 +73,6 @@ interface InfoData {
   is_active: boolean;
   type: string;
   logo: string;
-  // tags: ITag[];
-  // team: ITeam[];
   description: string;
   message: string;
   open_source: boolean;
@@ -115,20 +132,61 @@ function Coin() {
       const infoData = await (
         await fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)
       ).json();
-      console.log(infoData);
       const priceData = await (
         await fetch(`https://api.coinpaprika.com/v1/tickers/${coinId}`)
       ).json();
-      console.log(priceData);
       setInfo(infoData);
       setPriceInfo(priceData);
+      setLoading(false);
     })();
-  }, []);
+  }, [coinId]);
   return (
     <Container>
       <Header>
-        <Title>{state?.name || "Loading..."}</Title>;
+        <Title>
+          {state?.name ? state.name : loading ? "Loading..." : info?.name}
+        </Title>
+        ;
       </Header>
+      {loading ? (
+        <Loader>Loading...</Loader>
+      ) : (
+        <>
+          <Overview>
+            <OverviewItem>
+              <span>RANK:</span>
+              <span>{info?.rank}</span>
+            </OverviewItem>
+            <OverviewItem>
+              <span>SYMBOL:</span>
+              <span>{info?.symbol}</span>
+            </OverviewItem>
+            <OverviewItem>
+              <span>OPEN SOURCE:</span>
+              <span>{info?.open_source ? "YES" : "NO"}</span>
+            </OverviewItem>
+          </Overview>
+          <Description>{info?.description}</Description>
+          <Overview>
+            <OverviewItem>
+              <span>TOTAL SUPPLY:</span>
+              <span>{priceInfo?.total_supply}</span>
+            </OverviewItem>
+            <OverviewItem>
+              <span>MAX SUPPLY:</span>
+              <span>{priceInfo?.max_supply}</span>
+            </OverviewItem>
+          </Overview>
+          <Switch>
+            <Route path={`/nomadcoin/${coinId}/price`}>
+              <Price />
+            </Route>
+            <Route path={`/nomadcoin/${coinId}/chart`}>
+              <Chart />
+            </Route>
+          </Switch>
+        </>
+      )}
     </Container>
   );
 }
