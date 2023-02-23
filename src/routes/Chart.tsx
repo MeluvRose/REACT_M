@@ -15,9 +15,10 @@ interface IHistorical {
 
 interface ChartProps {
   coinId: string;
+  isDark: boolean;
 }
 
-function Chart({ coinId }: ChartProps) {
+function Chart({ coinId, isDark }: ChartProps) {
   const { isLoading, data } = useQuery<IHistorical[]>(
     ["ohlcv", coinId],
     () => fetchCoinHistory(coinId),
@@ -26,23 +27,36 @@ function Chart({ coinId }: ChartProps) {
     }
   );
 
-  console.log(data);
   return (
     <div>
       {isLoading ? (
         "Loading..."
       ) : (
         <ApexChart
-          type="line"
+          type="candlestick"
           series={[
             {
               name: "Price",
-              data: data?.map((price) => Number(price.close)) as number[],
+              data: data?.map((price) => [
+                price.time_close,
+                price.open,
+                price.high,
+                price.low,
+                price.close,
+              ]) as number[][],
             },
           ]}
           options={{
+            plotOptions: {
+              candlestick: {
+                colors: {
+                  upward: "#0652DD",
+                  downward: "#EA2027",
+                },
+              },
+            },
             theme: {
-              mode: "dark",
+              mode: isDark ? "dark" : "light",
             },
             chart: {
               height: 300,
@@ -64,13 +78,19 @@ function Chart({ coinId }: ChartProps) {
             },
             xaxis: {
               labels: {
-                show: false,
+                show: true,
+                rotate: -45,
               },
               axisBorder: {
                 show: false,
               },
               axisTicks: {
-                show: false,
+                show: true,
+                borderType: "solid",
+                color: "#78909C",
+                height: 6,
+                offsetX: 0,
+                offsetY: 0,
               },
               type: "datetime",
               categories: data?.map((price) => {
@@ -80,7 +100,7 @@ function Chart({ coinId }: ChartProps) {
             },
             fill: {
               type: "gradient",
-              gradient: { gradientToColors: ["#4834d4"], stops: [0, 100] },
+              gradient: { gradientToColors: ["#4834d4"], stops: [0, 0] },
             },
             colors: ["#eb4d4b"],
             tooltip: {

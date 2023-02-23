@@ -78,13 +78,21 @@ function App() {
   return (
     <>
       <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
-        <button onClick={toggleDark}>Toggle Mode</button>
         <GlobalStyle />
-        <Router />
+        <Router toggleDark={toggleDark} isDark={isDark} />
         <ReactQueryDevtools initialIsOpen={true} />
       </ThemeProvider>
     </>
   );
 }
+
+/*
+App (isDark, modifierFn)
+
+-> Router -> Coins (modifier)
+-> Router -> Coin -> Chart (isDark)
+
+⭐ 위 흐름을 각자 처리하게 하는 건 매우 비효율적
+*/
 
 export default App;

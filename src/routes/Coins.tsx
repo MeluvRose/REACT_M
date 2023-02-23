@@ -13,18 +13,44 @@ const Container = styled.div`
 
 const Header = styled.header`
   height: 10vh;
+  /* display: flex;
+  justify-content: space-between;
+  align-items: center; */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(33%, auto));
+  row-gap: 10px;
+  text-transform: uppercase;
+  div:first-child {
+    grid-column: 2/3;
+  }
+  div:last-child {
+    grid-column: 3/4;
+  }
+`;
+
+const HeaderItem = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  text-transform: uppercase;
+  button {
+    width: 50%;
+    height: 50%;
+    background-color: ${(props) => props.theme.cardBgColor};
+    border: none;
+    border-radius: 10px;
+    &:hover {
+      background-color: ${(props) => props.theme.accentColor};
+    }
+  }
 `;
 
 const CoinsList = styled.ul``;
 
 const Coin = styled.li`
-  background-color: white;
-  color: ${(props) => props.theme.bgColor};
+  background-color: ${(props) => props.theme.cardBgColor};
+  color: ${(props) => props.theme.textColor};
   margin-bottom: 10px;
+  border: 1px solid #30336b;
   border-radius: 10px;
   a {
     display: flex;
@@ -64,7 +90,12 @@ interface ICoin {
   type: "token";
 }
 
-function Coins() {
+interface ICoinsProps {
+  toggleDark: () => void;
+  isDark: boolean;
+}
+
+function Coins({ toggleDark, isDark }: ICoinsProps) {
   const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
 
   return (
@@ -73,7 +104,12 @@ function Coins() {
         <title>Coins</title>
       </Helmet>
       <Header>
-        <Title>Coin</Title>;
+        <HeaderItem>
+          <Title>Coin</Title>
+        </HeaderItem>
+        <HeaderItem>
+          <button onClick={toggleDark}>{isDark ? "☀️" : "🌙"}</button>
+        </HeaderItem>
       </Header>
       {isLoading ? (
         <Loader>Loading...</Loader>

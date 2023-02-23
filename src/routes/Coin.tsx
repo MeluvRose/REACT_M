@@ -51,6 +51,7 @@ const Overview = styled.div`
   padding: 10px 20px;
   background-color: rgb(1, 1, 1, 0.5);
   border-radius: 10px;
+  margin-top: 20px;
 `;
 
 const OverviewItem = styled.div`
@@ -89,6 +90,18 @@ const Tab = styled.span<{ isActive: boolean }>`
     props.isActive ? props.theme.accentColor : props.theme.textColor};
   a {
     display: block;
+  }
+`;
+
+const BtnBack = styled.button`
+  background-color: transparent;
+  border: none;
+  padding: 1px;
+  font-size: 24px;
+  margin-right: 20px;
+  &:hover {
+    box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
+      0 17px 50px 0 rgba(0, 0, 0, 0.19);
   }
 `;
 
@@ -152,7 +165,11 @@ interface PriceData {
   };
 }
 
-function Coin() {
+interface ICoinProps {
+  isDark: boolean;
+}
+
+function Coin({ isDark }: ICoinProps) {
   const { coinId } = useParams<RouteParams>();
   const { state } = useLocation<RouteState>();
   const chartMatch = useRouteMatch("/nomadcoin/:coinId/chart");
@@ -178,6 +195,9 @@ function Coin() {
         </title>
       </Helmet>
       <Header>
+        <BtnBack>
+          <Link to="/nomadcoin">↩️</Link>
+        </BtnBack>
         <Title>
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
         </Title>
@@ -222,10 +242,10 @@ function Coin() {
           </Tabs>
           <Switch>
             <Route path={`/nomadcoin/:coinId/price`}>
-              <Price />
+              <Price QuoteData={tickerData?.quotes.USD} isDark={isDark} />
             </Route>
             <Route path={`/nomadcoin/:coinId/chart`}>
-              <Chart coinId={coinId} />
+              <Chart coinId={coinId} isDark={isDark} />
             </Route>
           </Switch>
         </>
