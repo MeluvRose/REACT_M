@@ -8,13 +8,15 @@ interface IRouterProps {
 }
 
 function Router({ toggleDark, isDark }: IRouterProps) {
+  const root = "/REACT_M";
+
   return (
     <BrowserRouter>
       <Switch>
-        <Route path={"/nomadcoin/:coinId"}>
+        <Route path={`${root}/nomadcoin/:coinId`}>
           <Coin isDark={isDark} />
         </Route>
-        <Route path={"/nomadcoin"}>
+        <Route path={`${root}/nomadcoin`}>
           <Coins toggleDark={toggleDark} isDark={isDark} />
         </Route>
       </Switch>

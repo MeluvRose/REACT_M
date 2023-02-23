@@ -186,6 +186,7 @@ function Coin({ isDark }: ICoinProps) {
     }
   );
   const loading = infoLoading || tickersLoading;
+  const root = "/REACT_M";
 
   return (
     <Container>
@@ -196,7 +197,7 @@ function Coin({ isDark }: ICoinProps) {
       </Helmet>
       <Header>
         <BtnBack>
-          <Link to="/nomadcoin">↩️</Link>
+          <Link to={`${root}/nomadcoin`}>↩️</Link>
         </BtnBack>
         <Title>
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
@@ -234,17 +235,17 @@ function Coin({ isDark }: ICoinProps) {
           </Overview>
           <Tabs>
             <Tab isActive={chartMatch !== null}>
-              <Link to={`/nomadcoin/${coinId}/chart`}>Chart</Link>
+              <Link to={`${root}/nomadcoin/${coinId}/chart`}>Chart</Link>
             </Tab>
             <Tab isActive={priceMatch !== null}>
-              <Link to={`/nomadcoin/${coinId}/price`}>Price</Link>
+              <Link to={`${root}/nomadcoin/${coinId}/price`}>Price</Link>
             </Tab>
           </Tabs>
           <Switch>
-            <Route path={`/nomadcoin/:coinId/price`}>
+            <Route path={`${root}/nomadcoin/:coinId/price`}>
               <Price QuoteData={tickerData?.quotes.USD} isDark={isDark} />
             </Route>
-            <Route path={`/nomadcoin/:coinId/chart`}>
+            <Route path={`${root}/nomadcoin/:coinId/chart`}>
               <Chart coinId={coinId} isDark={isDark} />
             </Route>
           </Switch>

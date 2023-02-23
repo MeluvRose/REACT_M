@@ -25,6 +25,6 @@ git commit -m 'deploy'
 # git push -f git@github.com:<USERNAME>/<USERNAME>.github.io.git main
 
 # https://<USERNAME>.github.io/<REPO> 에 배포
-git push git@github.com/MeluvRose/REACT_M.git main:gh-pages
+git push origin main:gh-pages
 
 cd -
