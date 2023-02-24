@@ -86,13 +86,4 @@ function App() {
   );
 }
 
-/*
-App (isDark, modifierFn)
-
--> Router -> Coins (modifier)
--> Router -> Coin -> Chart (isDark)
-
-⭐ 위 흐름을 각자 처리하게 하는 건 매우 비효율적
-*/
-
 export default App;

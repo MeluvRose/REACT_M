@@ -17,14 +17,13 @@ echo > .nojekyll
 
 git init
 git checkout -B main
-# git add -A
-git add *
+git add -A
 git commit -m 'deploy'
 
 # https://<USERNAME>.github.io 에 배포
 # git push -f git@github.com:<USERNAME>/<USERNAME>.github.io.git main
 
 # https://<USERNAME>.github.io/<REPO> 에 배포
-git push origin main:gh-pages
+git push git@github.com/MeluvRose/REACT_M.git main:gh-pages
 
 cd -
