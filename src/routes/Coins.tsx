@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { fetchCoins } from "../api";
 import { Helmet } from "react-helmet";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "../atoms";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -90,12 +92,10 @@ interface ICoin {
   type: "token";
 }
 
-interface ICoinsProps {
-  toggleDark: () => void;
-  isDark: boolean;
-}
+interface ICoinsProps {}
 
-function Coins({ toggleDark, isDark }: ICoinsProps) {
+function Coins({}: ICoinsProps) {
+  const isDark = useRecoilValue(isDarkAtom);
   const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
 
   return (
@@ -108,7 +108,7 @@ function Coins({ toggleDark, isDark }: ICoinsProps) {
           <Title>Coin</Title>
         </HeaderItem>
         <HeaderItem>
-          <button onClick={toggleDark}>{isDark ? "☀️" : "🌙"}</button>
+          {/* <button onClick={}>{isDark ? "☀️" : "🌙"}</button> */}
         </HeaderItem>
       </Header>
       {isLoading ? (
@@ -119,7 +119,7 @@ function Coins({ toggleDark, isDark }: ICoinsProps) {
             <Coin key={coin.id}>
               <Link
                 to={{
-                  pathname: `nomadcoin/${coin.id}`,
+                  pathname: `/REACT_M/${coin.id}`,
                   state: { name: coin.name },
                 }}
               >

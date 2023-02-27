@@ -165,17 +165,16 @@ interface PriceData {
   };
 }
 
-interface ICoinProps {
-  isDark: boolean;
-}
+interface ICoinProps {}
 
 const root = "/REACT_M";
 
-function Coin({ isDark }: ICoinProps) {
+function Coin({}: ICoinProps) {
   const { coinId } = useParams<RouteParams>();
   const { state } = useLocation<RouteState>();
-  const chartMatch = useRouteMatch("/nomadcoin/:coinId/chart");
-  const priceMatch = useRouteMatch("/nomadcoin/:coinId/price");
+  const chartMatch = useRouteMatch(`${root}/:coinId/chart`);
+  const priceMatch = useRouteMatch(`${root}/:coinId/price`);
+
   const { isLoading: infoLoading, data: infoData } = useQuery<InfoData>(
     ["info", coinId],
     () => fetchCoinInfo(coinId)
@@ -198,7 +197,7 @@ function Coin({ isDark }: ICoinProps) {
       </Helmet>
       <Header>
         <BtnBack>
-          <Link to={`${root}/nomadcoin`}>↩️</Link>
+          <Link to={root}>↩️</Link>
         </BtnBack>
         <Title>
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
@@ -236,18 +235,18 @@ function Coin({ isDark }: ICoinProps) {
           </Overview>
           <Tabs>
             <Tab isActive={chartMatch !== null}>
-              <Link to={`${root}/nomadcoin/${coinId}/chart`}>Chart</Link>
+              <Link to={`${root}/${coinId}/chart`}>Chart</Link>
             </Tab>
             <Tab isActive={priceMatch !== null}>
-              <Link to={`${root}/nomadcoin/${coinId}/price`}>Price</Link>
+              <Link to={`${root}/${coinId}/price`}>Price</Link>
             </Tab>
           </Tabs>
           <Switch>
-            <Route path={`${root}/nomadcoin/:coinId/price`}>
-              <Price QuoteData={tickerData?.quotes.USD} isDark={isDark} />
+            <Route path={`${root}/:coinId/price`}>
+              <Price QuoteData={tickerData?.quotes.USD} />
             </Route>
-            <Route path={`${root}/nomadcoin/:coinId/chart`}>
-              <Chart coinId={coinId} isDark={isDark} />
+            <Route path={`${root}/:coinId/chart`}>
+              <Chart coinId={coinId} />
             </Route>
           </Switch>
         </>

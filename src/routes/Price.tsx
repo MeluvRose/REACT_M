@@ -22,7 +22,6 @@ interface IQuotes {
 }
 
 interface IPriceProps {
-  isDark: boolean;
   QuoteData: IQuotes | undefined;
 }
 
@@ -112,7 +111,7 @@ function IsRise(num: undefined | number) {
   return false;
 }
 
-function Price({ QuoteData, isDark }: IPriceProps) {
+function Price({ QuoteData }: IPriceProps) {
   return (
     <div>
       <DashBoard>
